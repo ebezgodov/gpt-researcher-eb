@@ -65,7 +65,8 @@ def generate_report_prompt(question: str, context, report_source: str, report_fo
             relevant results that answer the query accurately. Place these citations at the end \
             of the sentence or paragraph that reference them.\n"\
             f"Please do your best, this is very important to my career. " \
-            f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}"
+            f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}" \
+            f"The report should be written in Russian if appropriate."
 
 
 def generate_resource_report_prompt(question, context, report_source: str, report_format="apa", total_words=1000):
@@ -97,6 +98,7 @@ def generate_resource_report_prompt(question, context, report_source: str, repor
            'Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.\n' \
            'Include relevant facts, figures, and numbers whenever available.\n' \
            f'The report should have a minimum length of {total_words} words.\n' \
+           'The report should be written in Russian if appropriate.' \
            'You MUST include all relevant source urls.'\
            'Every url should be hyperlinked: [url website](url)'\
            f'{reference_prompt}'
@@ -116,7 +118,8 @@ def generate_outline_report_prompt(question, context, report_source: str, report
            f' for the following question or topic: "{question}". The outline should provide a well-structured framework' \
            ' for the research report, including the main sections, subsections, and key points to be covered.' \
            f' The research report should be detailed, informative, in-depth, and a minimum of {total_words} words.' \
-           ' Use appropriate Markdown syntax to format the outline and ensure readability.'
+           ' Use appropriate Markdown syntax to format the outline and ensure readability.' \
+           'The report should be written in Russian if appropriate.'
 
 
 def get_report_by_type(report_type: str):
@@ -167,7 +170,8 @@ def generate_summary_prompt(query, data):
 
     return f'{data}\n Using the above text, summarize it based on the following task or query: "{query}".\n If the ' \
            f'query cannot be answered using the text, YOU MUST summarize the text in short.\n Include all factual ' \
-           f'information such as numbers, stats, quotes, etc if available. '
++           f'information such as numbers, stats, quotes, etc if available. ' \
++           f'The response MUST be written in Russian.'
 
 
 ################################################################################################
@@ -187,8 +191,9 @@ def generate_subtopics_prompt() -> str:
                 - Construct a list of subtopics which indicate the headers of a report document to be generated on the task. 
                 - These are a possible list of subtopics : {subtopics}.
                 - There should NOT be any duplicate subtopics.
-                - Limit the number of subtopics to a maximum of {max_subtopics}
-                - Finally order the subtopics by their tasks, in a relevant and meaningful order which is presentable in a detailed report
+                - Limit the number of subtopics to a maximum of {max_subtopics}.
+                - Finally order the subtopics by their tasks, in a relevant and meaningful order which is presentable in a detailed report.
+                - The report should be written in Russian if appropriate.
                 
                 "IMPORTANT!":
                 - Every subtopic MUST be relevant to the main topic and provided research data ONLY!
@@ -243,6 +248,7 @@ def generate_subtopic_report_prompt(
     - Must NOT have any introduction, conclusion, summary or reference section.
     - You MUST include hyperlinks with markdown syntax ([url website](url)) related to the sentences wherever necessary.
     - The report should have a minimum length of {total_words} words.
+    - The report should be written in Russian if appropriate.
     """
 
 
@@ -253,6 +259,7 @@ def generate_report_introduction(question: str, research_summary: str = "") -> s
         - As this introduction will be part of a larger report, do NOT include any other sections, which are generally present in a report.
         - The introduction should be preceded by an H1 heading with a suitable topic for the entire report.
         - You must include hyperlinks with markdown syntax ([url website](url)) related to the sentences wherever necessary.
+        - The introduction should be written in Russian if appropriate.
         Assume that the current date is {datetime.now(timezone.utc).strftime('%B %d, %Y')} if required.
     """
 

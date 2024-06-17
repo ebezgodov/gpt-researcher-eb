@@ -1,4 +1,4 @@
-from backend.server import app
+from backend.http_api_server import app
 from dotenv import load_dotenv
 load_dotenv()
 

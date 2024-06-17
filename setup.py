@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/assafelovic/gpt-researcher",
+    url="https://github.com/ebezgodov/gpt-researcher-eb",
     author="Assaf Elovic",
     author_email="assaf.elovic@gmail.com",
     license="MIT",

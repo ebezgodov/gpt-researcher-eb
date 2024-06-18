@@ -7,3 +7,9 @@ services:
       - .env
     ports:
       - 8001:8000
+    networks:
+      - petya_net
+
+networks:
+  petya_net:
+    external: true

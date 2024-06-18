@@ -31,8 +31,7 @@ async def lifespan(app: FastAPI):
     finally:
         # Cleanup if needed in the future
         yield
-
-app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
+    app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
 
 @app.get("/report")

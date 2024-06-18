@@ -12,4 +12,4 @@ services:
 
 networks:
   petya_net:
-    external: true
+    driver: bridge

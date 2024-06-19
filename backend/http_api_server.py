@@ -18,20 +18,13 @@ class ResearchRequest(BaseModel):
 app = FastAPI()
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup event
-    try:
-        if not os.path.isdir("outputs"):
-            os.makedirs("outputs")
-        logging.info(f"Successfully created the outputs directory.")
-    except Exception as e:
-        logging.error(f"An error occurred while creating the outputs directory: {str(e)}")
-        raise e
-    finally:
-        # Cleanup if needed in the future
-        yield
+# Dynamic directory for outputs once first research is run
+@app.on_event("startup")
+def startup_event():
+    if not os.path.isdir("outputs"):
+        os.makedirs("outputs")
     app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
+
 
 
 @app.get("/report")

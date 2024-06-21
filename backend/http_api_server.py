@@ -4,9 +4,8 @@ from pydantic import BaseModel
 from backend.utils import write_md_to_pdf
 import time
 import os
-import logging
-from contextlib import asynccontextmanager
 from gpt_researcher import GPTResearcher
+import re
 
 
 class ResearchRequest(BaseModel):
@@ -35,6 +34,16 @@ async def get_report(query: str, report_type: str) -> dict:
     
     # Saving report as pdf
     filename = f"task_{int(time.time())}_{query[:50].replace(" ", "_")}"
+    filename = make_filename_safe(filename)
     pdf_path = await write_md_to_pdf(report, filename)
     
     return {"report": report, "pdf_path": pdf_path}
+
+def make_filename_safe(string, max_length=255):
+    # Заменяем недопустимые символы и переводы строки на подчеркивание
+    safe_string = re.sub(r'[\\/*?:"<>|\n\r]', '_', string)
+    # Заменяем пробелы на подчеркивания
+    safe_string = safe_string.replace(' ', '_')
+    # Обрезаем строку, если она слишком длинная
+    safe_string = safe_string[:max_length]
+    return safe_string

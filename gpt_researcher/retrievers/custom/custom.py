@@ -48,12 +48,15 @@ class CustomRetriever:
         try:
             response = requests.get(self.endpoint, params={**self.params, 'query': self.query})
             response.raise_for_status()
+            print("111", response.content)
             
             # Парсинг XML данных
             root = ET.fromstring(response.content)
+            print("222", root)
 
             # Ищем все документы в XML
             docs = root.findall('.//group/doc')
+            print("333", len(docs))
 
             # Создаем список для JSON данных
             json_data = []
@@ -61,8 +64,11 @@ class CustomRetriever:
             # Обходим все найденные документы и добавляем их в JSON массив
             for doc in docs:
                 url = doc.find('url').text
+                print("444", url)
                 raw_content = ' '.join(passage.text for passage in doc.findall('.//passage'))
+                print("555", raw_content)
                 json_data.append({'url': url, 'raw_content': raw_content})
+                print("666", len(json_data))
 
             return json_data
 

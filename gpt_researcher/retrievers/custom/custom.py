@@ -61,7 +61,7 @@ class CustomRetriever:
                         "url": url,
                         "raw_content": raw_content
                     })
-            json_result = json.dumps(json_list, indent=2, ensure_ascii=False)
+            json_result = json_list#json.dumps(json_list, indent=2, ensure_ascii=False)
 
             return json_result
 

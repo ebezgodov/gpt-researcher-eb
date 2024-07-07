@@ -1,6 +1,8 @@
 from typing import Any, Dict, List, Optional
 import requests
 import os
+import xml.etree.ElementTree as ET
+import json
 
 
 class CustomRetriever:
@@ -46,7 +48,23 @@ class CustomRetriever:
         try:
             response = requests.get(self.endpoint, params={**self.params, 'query': self.query})
             response.raise_for_status()
-            return response.json()
+            root = ET.fromstring(response.content)
+            
+            # Convert to JSON
+            json_list = []
+            for group in root.findall('.//grouping/group'):
+                categ = group.find('categ').attrib['name']
+                for doc in group.findall('doc'):
+                    url = doc.find('url').text
+                    raw_content = doc.find('passages').text
+                    json_list.append({
+                        "url": url,
+                        "raw_content": raw_content
+                    })
+            json_result = json.dumps(json_list, indent=2, ensure_ascii=False)
+
+            return json_result
+
         except requests.RequestException as e:
             print(f"Failed to retrieve search results: {e}")
             return None

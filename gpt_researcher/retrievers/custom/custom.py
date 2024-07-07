@@ -65,7 +65,7 @@ class CustomRetriever:
             for doc in docs:
                 url = doc.find('url').text
                 print("444", url)
-                raw_content = ' '.join(ET.tostring(passage, encoding='utf-8', method='text').strip() for passage in doc.findall('.//passage'))
+                raw_content = ' '.join(ET.tostring(passage, encoding='utf-8', method='text').strip().decode('utf-8') for passage in doc.findall('.//passage'))
                 print("555", raw_content)
                 json_data.append({'url': url, 'raw_content': raw_content})
                 print("666", len(json_data))

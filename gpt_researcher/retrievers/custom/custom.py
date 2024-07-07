@@ -48,22 +48,23 @@ class CustomRetriever:
         try:
             response = requests.get(self.endpoint, params={**self.params, 'query': self.query})
             response.raise_for_status()
-            root = ET.fromstring(response.content)
             
-            # Convert to JSON
-            json_list = []
-            for group in root.findall('.//grouping/group'):
-                categ = group.find('categ').attrib['name']
-                for doc in group.findall('doc'):
-                    url = doc.find('url').text
-                    raw_content = doc.find('passages').text
-                    json_list.append({
-                        "url": url,
-                        "raw_content": raw_content
-                    })
-            json_result = json_list#json.dumps(json_list, indent=2, ensure_ascii=False)
+            # Парсинг XML данных
+            root = ET.fromstring(response.content)
 
-            return json_result
+            # Ищем все документы в XML
+            docs = root.findall('.//group/doc')
+
+            # Создаем список для JSON данных
+            json_data = []
+
+            # Обходим все найденные документы и добавляем их в JSON массив
+            for doc in docs:
+                url = doc.find('url').text
+                raw_content = ' '.join(passage.text for passage in doc.findall('.//passage'))
+                json_data.append({'url': url, 'raw_content': raw_content})
+
+            return json_data
 
         except requests.RequestException as e:
             print(f"Failed to retrieve search results: {e}")

@@ -12,5 +12,3 @@ services:
 
 networks:
   petya_net:
-    driver: bridge
-    name: petya_net
